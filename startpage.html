@@ -75,10 +75,11 @@
 
             <div class="w-full h-5 flex h-5">
 
-                <div class="w-1/3 bg-russian_violet">
+                <div class="w-1/3 bg-slate_blue">
                     <input 
+                        id="searchfield"
                         type="text" 
-                        class="bg-russian_violet w-full h-full
+                        class="bg-slate_blue w-full h-full
                         placeholder:text-yellow_orange focus:outline-none
                         focus:placeholder:text-transparent text-yellow_orange" 
                         autofocus="" 
@@ -90,6 +91,16 @@
             </div>
 
         </div>
+        <script>
+            document.getElementById('searchfield').onkeypress = function (e) {
+            if (!e) e = window.event;
+                var keyCode = e.keyCode || e.which;
+                if (keyCode == '13') {
+                    window.location.href = "https://duckduckgo.com/?q=" + document.getElementById('searchfield').value;
+                }
+            };
+        </script>
+    
 
     </body>
 </html>
