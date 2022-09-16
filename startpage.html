@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Hello</title>
+
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors:{
+                            xiketic: '#0d0c1d',
+                            slate_blue: '#7d53de',
+                            russian_violet: '#42033d',
+                            yellow_orange: '#fea82f',
+                            viridian_green: '#119da4',
+                        }
+                    }
+                }
+            }
+        </script>
+    </head>
+    <body class="bg-xiketic flex items-center justify-center h-screen w-screen">
+
+        <div class="flex w-full px-5 flex-wrap">
+
+            <div class="flex w-full py-3">
+                <div class="bg-viridian_green w-1/3">
+                    <img src="lucy.png" alt="Lucy" class="aspect-ratio" > 
+                </div>
+
+                <div class="bg-viridian_green w-4/6 ml-3">
+                    <a>Foo</a>
+                </div>
+            </div>
+
+            <div class="bg-viridian_green w-full h-fit flex">
+
+                <div class="w-1/3 bg-russian_violet">
+                    <p>
+                        <input 
+                            type="text" 
+                            class="bg-russian_violet w-full 
+                            placeholder:text-yellow_orange focus:outline-none focus:placeholder:text-transparent text-yellow_orange" 
+                            autofocus="" 
+                            placeholder="lurk...">
+                    </p>
+                </div>
+
+                <div class="w-4/6 ml-3">
+                </div>
+            </div>
+
+        </div>
+
+    </body>
+</html>
+
