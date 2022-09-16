@@ -25,15 +25,14 @@
     </head>
     <body class="bg-xiketic flex items-center justify-center h-screen w-screen">
 
-        <div class="flex w-5/6 flex-wrap skew-x-[-6deg]">
+        <div class="flex w-5/6 flex-wrap skew-x-[-6deg] h-fit">
 
-            <div class="flex w-full h-5">
-                <div class="w-1/3 bg-viridian_green h-full"></div>
-                <div class="w-4/6 bg-slate_blue h-full ml-3"></div>
-
+            <div class="flex w-full h-fit">
+                <div class="w-1/3 bg-viridian_green h-full p-1"><p id="time" class="text-yellow_orange"></p></div>
+                <div class="w-4/6 bg-slate_blue h-full ml-3 p-1"><p id="date" class="text-yellow_orange"></p></div>
             </div>
 
-            <div class="flex w-full py-3">
+            <div class="flex w-full py-3 h-fit">
                 <div class="bg-viridian_green w-1/3">
                     <img src="lucy.png" alt="Lucy" class="aspect-ratio" > 
                 </div>
@@ -73,20 +72,22 @@
                 </div>
             </div>
 
-            <div class="w-full h-5 flex h-5">
+            <div class="w-full flex h-fit">
 
-                <div class="w-1/3 bg-slate_blue">
-                    <input 
-                        id="searchfield"
-                        type="text" 
-                        class="bg-slate_blue w-full h-full
-                        placeholder:text-yellow_orange focus:outline-none
-                        focus:placeholder:text-transparent text-yellow_orange" 
-                        autofocus="" 
-                        placeholder="lurk...">
+                <div class="w-1/3 bg-slate_blue p-1 h-fit">
+                    <p>
+                        <input 
+                            id="searchfield"
+                            type="text" 
+                            class="bg-slate_blue w-full h-full
+                            placeholder:text-yellow_orange focus:outline-none
+                            focus:placeholder:text-transparent text-yellow_orange" 
+                            autofocus="" 
+                            placeholder="lurk...">
+                    </p>
                 </div>
 
-                <div class="bg-viridian_green w-4/6 ml-3">
+                <div class="bg-viridian_green w-4/6 ml-3 p-1 h-8">
                 </div>
             </div>
 
@@ -99,6 +100,22 @@
                     window.location.href = "https://duckduckgo.com/?q=" + document.getElementById('searchfield').value;
                 }
             };
+        </script>
+        <script>
+            window.onload = displayClock();
+            function displayClock(){
+                var display = new Date().toLocaleTimeString();
+                document.getElementById("time").innerHTML = display;
+                setTimeout(displayClock, 1000)
+            }
+        </script>
+        <script>
+            window.onload = displayDate();
+            function displayDate(){
+                var display = new Date().toDateString();
+                document.getElementById("date").innerHTML = display;
+                setTimeout(displayDate, 10000)
+            }
         </script>
     
 
