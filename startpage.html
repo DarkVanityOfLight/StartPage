@@ -25,18 +25,25 @@
     </head>
     <body class="bg-xiketic flex items-center justify-center h-screen w-screen">
 
+        <!--Top Container-->
         <div class="flex w-5/6 flex-wrap skew-x-[-6deg] h-fit">
 
+            <!--Top Bar-->
             <div class="flex w-full h-fit">
-                <div class="w-1/3 bg-viridian_green h-full p-1"><p id="time" class="text-yellow_orange"></p></div>
-                <div class="w-4/6 bg-slate_blue h-full ml-3 p-1"><p id="date" class="text-yellow_orange"></p></div>
+                <!--Time-->
+                <div class="w-1/3 bg-viridian_green h-full p-1 shadow-inner shadow-xiketic"><p id="time" class="text-yellow_orange"></p></div>
+                <!--Date-->
+                <div class="w-4/6 bg-slate_blue h-full ml-3 p-1 shadow-inner shadow-russian_violet"><p id="date" class="text-yellow_orange"></p></div>
             </div>
 
+            <!--Main Content-->
             <div class="flex w-full py-3 h-fit">
+                <!--Image-->
                 <div class="bg-viridian_green w-1/3">
                     <img src="lucy.png" alt="Lucy" class="aspect-ratio" > 
                 </div>
 
+                <!--Links-->
                 <div class="bg-viridian_green w-4/6 ml-3 place-content-between flex flex-wrap text-yellow_orange px-10 pt-5">
                     <div class="flex flex-wrap flex-col items-center grow m-1 ">
                         <div class="w-fit border-b-2 border-slate_blue"><h class="basis-full text-center">/Entertainment/</h></div>
@@ -82,9 +89,12 @@
                 </div>
             </div>
 
+
+            <!--Bottom bar-->
             <div class="w-full flex h-fit">
 
-                <div class="w-1/3 bg-slate_blue p-1 h-fit">
+                <!--Searchfield-->
+                <div class="w-1/3 bg-slate_blue p-1 h-fit shadow-inner shadow-russian_violet">
                     <p>
                         <input 
                             id="searchfield"
@@ -97,11 +107,14 @@
                     </p>
                 </div>
 
-                <div class="bg-viridian_green w-4/6 ml-3 p-1 h-8">
+                
+                <!--Placeholder bar-->
+                <div class="bg-viridian_green w-4/6 ml-3 p-1 h-8 shadow-inner shadow-xiketic">
                 </div>
             </div>
 
         </div>
+        <!--Scripts-->
         <script>
             document.getElementById('searchfield').onkeypress = function (e) {
             if (!e) e = window.event;
