@@ -8,15 +8,35 @@
 
         <script src="https://cdn.tailwindcss.com"></script>
         <script>
-            tailwind.config = {
-                theme: {
-                    extend: {
-                        colors:{
-                            xiketic: '#0d0c1d',
-                            slate_blue: '#7d53de',
-                            russian_violet: '#42033d',
-                            yellow_orange: '#fea82f',
-                            viridian_green: '#119da4',
+
+            const loc = window.location.search.substr(1)
+
+            if (loc == "nord") {
+                tailwind.config = {
+                    theme: {
+                        extend: {
+                            colors:{
+                                xiketic: '#2e3440',
+                                slate_blue: '#bf616a',
+                                russian_violet: '#3b4252',
+                                yellow_orange: '#e5e9f0',
+                                viridian_green: '#3e4a5b',
+                            }
+                        }
+                    }
+
+                }
+            }else{
+                tailwind.config = {
+                    theme: {
+                        extend: {
+                            colors:{
+                                xiketic: '#0d0c1d',
+                                slate_blue: '#7d53de',
+                                russian_violet: '#42033d',
+                                yellow_orange: '#fea82f',
+                                viridian_green: '#119da4',
+                            }
                         }
                     }
                 }
@@ -43,50 +63,50 @@
                     <img src="lucy.png" alt="Lucy" class="aspect-ratio" > 
                 </div>
 
-                <!--Links-->
-                <div class="bg-viridian_green w-4/6 ml-3 place-content-between flex flex-wrap text-yellow_orange px-10 pt-5">
-                    <div class="flex flex-wrap flex-col items-center grow m-1 ">
-                        <div class="w-fit border-b-2 border-slate_blue"><h class="basis-full text-center">/Entertainment/</h></div>
-                        <div class="w-fit"><a href="https://www.wcostream.net" target="_blank" class="basis-full text-center">/wco/</a></div>
-                        <div class="w-fit"><a href="https://www.youtube.com" target="_blank" class="basis-full text-center">/yt/</a></div>
-                        <div class="w-fit"><a href="https://www.reddit.com" target="_blank" class="basis-full text-center">/r/</a></div>
-                        <div class="w-fit"><a href="https://steamdb.info/upcoming/free/" target="_blank" class="basis-full text-center">/sdb/</a></div>
-                        <div class="w-fit"><a href="https://u.gg/lol/profile/euw1/brotdosenterror/overview" target="_blank" class="basis-full text-center">/u/</a></div>
-                    </div>
+                    <!--Links-->
+                    <div class="bg-viridian_green w-4/6 ml-3 place-content-between flex flex-wrap text-yellow_orange px-10 pt-5">
+                        <div class="flex flex-wrap flex-col items-center grow m-1 ">
+                            <div class="w-fit border-b-2 border-slate_blue"><h class="basis-full text-center">/Entertainment/</h></div>
+                            <div class="w-fit"><a href="https://www.wcostream.net" target="_blank" class="basis-full text-center">/wco/</a></div>
+                            <div class="w-fit"><a href="https://www.youtube.com" target="_blank" class="basis-full text-center">/yt/</a></div>
+                            <div class="w-fit"><a href="https://www.reddit.com" target="_blank" class="basis-full text-center">/r/</a></div>
+                            <div class="w-fit"><a href="https://steamdb.info/upcoming/free/" target="_blank" class="basis-full text-center">/sdb/</a></div>
+                            <div class="w-fit"><a href="https://u.gg/lol/profile/euw1/brotdosenterror/overview" target="_blank" class="basis-full text-center">/u/</a></div>
+                        </div>
 
-                    <div class="flex flex-wrap flex-col items-center grow m-1">
-                        <div class="w-fit border-b-2 border-slate_blue"><h class="basis-full text-center">/4Chan/</h></div>
-                        <div class="w-fit"><a href="https://www.4chan.org/g/" target="_blank" class="basis-full text-center">/g/</a></div>
-                        <div class="w-fit"><a href="https://www.4chan.org/sci/" target="_blank" class="basis-full text-center">/sci/</a></div>
-                        <div class="w-fit"><a href="https://www.4chan.org/r9k/" target="_blank" class="basis-full text-center">/r9k/</a></div>
-                        <div class="w-fit"><a href="https://www.4chan.org/b/" target="_blank" class="basis-full text-center">/b/</a></div>
-                        <div class="w-fit"><a href="https://www.4chan.org/w/" target="_blank" class="basis-full text-center">/w/</a></div>
-                        <div class="w-fit"><a href="https://www.4chan.org/wg/" target="_blank" class="basis-full text-center">/wg/</a></div>
-                    </div>
+                        <div class="flex flex-wrap flex-col items-center grow m-1">
+                            <div class="w-fit border-b-2 border-slate_blue"><h class="basis-full text-center">/4Chan/</h></div>
+                            <div class="w-fit"><a href="https://www.4chan.org/g/" target="_blank" class="basis-full text-center">/g/</a></div>
+                            <div class="w-fit"><a href="https://www.4chan.org/sci/" target="_blank" class="basis-full text-center">/sci/</a></div>
+                            <div class="w-fit"><a href="https://www.4chan.org/r9k/" target="_blank" class="basis-full text-center">/r9k/</a></div>
+                            <div class="w-fit"><a href="https://www.4chan.org/b/" target="_blank" class="basis-full text-center">/b/</a></div>
+                            <div class="w-fit"><a href="https://www.4chan.org/w/" target="_blank" class="basis-full text-center">/w/</a></div>
+                            <div class="w-fit"><a href="https://www.4chan.org/wg/" target="_blank" class="basis-full text-center">/wg/</a></div>
+                        </div>
 
-                    <div class="flex flex-wrap flex-col items-center grow m-1">
-                        <div class="w-fit border-b-2 border-slate_blue"><h class="basis-full text-center">/Development/</h></div>
-                        <div class="w-fit"><a href="https://www.github.com/" target="_blank" class="basis-full text-center">/gh/</a></div>
-                        <div class="w-fit"><a href="https://www.coolors.co/" target="_blank" class="basis-full text-center">/co/</a></div>
-                        <div class="w-fit"><a href="https://www.stackoverflow.com/" target="_blank" class="basis-full text-center">/so/</a></div>
-                        <div class="w-fit"><a href="https://www.leetcode.com/" target="_blank" class="basis-full text-center">/lc/</a></div>
-                    </div>
+                        <div class="flex flex-wrap flex-col items-center grow m-1">
+                            <div class="w-fit border-b-2 border-slate_blue"><h class="basis-full text-center">/Development/</h></div>
+                            <div class="w-fit"><a href="https://www.github.com/" target="_blank" class="basis-full text-center">/gh/</a></div>
+                            <div class="w-fit"><a href="https://www.coolors.co/" target="_blank" class="basis-full text-center">/co/</a></div>
+                            <div class="w-fit"><a href="https://www.stackoverflow.com/" target="_blank" class="basis-full text-center">/so/</a></div>
+                            <div class="w-fit"><a href="https://www.leetcode.com/" target="_blank" class="basis-full text-center">/lc/</a></div>
+                        </div>
 
-                    <div class="flex flex-wrap flex-col items-center grow m-1">
-                        <div class="w-fit border-b-2 border-slate_blue"><h class="basis-full text-center">/Uni/</h></div>
-                        <div class="w-fit"><a href="https://mail.uni-kl.de/" target="_blank" class="basis-full text-center">/mu/</a></div>
-                        <div class="w-fit"><a href="https://olat.vcrp.de/dmz/" target="_blank" class="basis-full text-center">/olt/</a></div>
-                        <div class="w-fit"><a href="https://qis.verw.uni-kl.de/qisserver/rds" target="_blank" class="basis-full text-center">/qis/</a></div>
-                        <div class="w-fit"><a href="https://office.kis.uni-kl.de/default.asp" target="_blank" class="basis-full text-center">/kis/</a></div>
-                        <div class="w-fit"><a href="https://urm.mathematik.uni-kl.de:4443/" target="_blank" class="basis-full text-center">/urm/</a></div>
-                        <div class="w-fit"><a href="https://exclaim.cs.uni-kl.de/login" target="_blank" class="basis-full text-center">/exc/</a></div>
-                    </div>
+                        <div class="flex flex-wrap flex-col items-center grow m-1">
+                            <div class="w-fit border-b-2 border-slate_blue"><h class="basis-full text-center">/Uni/</h></div>
+                            <div class="w-fit"><a href="https://mail.uni-kl.de/" target="_blank" class="basis-full text-center">/mu/</a></div>
+                            <div class="w-fit"><a href="https://olat.vcrp.de/dmz/" target="_blank" class="basis-full text-center">/olt/</a></div>
+                            <div class="w-fit"><a href="https://qis.verw.uni-kl.de/qisserver/rds" target="_blank" class="basis-full text-center">/qis/</a></div>
+                            <div class="w-fit"><a href="https://office.kis.uni-kl.de/default.asp" target="_blank" class="basis-full text-center">/kis/</a></div>
+                            <div class="w-fit"><a href="https://urm.mathematik.uni-kl.de:4443/" target="_blank" class="basis-full text-center">/urm/</a></div>
+                            <div class="w-fit"><a href="https://exclaim.cs.uni-kl.de/login" target="_blank" class="basis-full text-center">/exc/</a></div>
+                        </div>
 
-                    <div class="flex flex-wrap flex-col items-center grow m-1" >
-                        <div class="w-fit border-b-2 border-slate_blue"><h class="basis-full text-center">/Organisation/</h></div>
-                        <div class="w-fit"><a href="https://calendar.google.com/calendar/u/1/r" target="_blank" class="basis-full text-center">/cal/</a></div>
+                        <div class="flex flex-wrap flex-col items-center grow m-1" >
+                            <div class="w-fit border-b-2 border-slate_blue"><h class="basis-full text-center">/Organisation/</h></div>
+                            <div class="w-fit"><a href="https://calendar.google.com/calendar/u/1/r" target="_blank" class="basis-full text-center">/cal/</a></div>
+                        </div>
                     </div>
-                </div>
             </div>
 
 
@@ -96,18 +116,18 @@
                 <!--Searchfield-->
                 <div class="w-1/3 bg-slate_blue p-1 h-fit shadow-inner shadow-russian_violet">
                     <p>
-                        <input 
-                            id="searchfield"
-                            type="text" 
-                            class="bg-slate_blue w-full h-full
-                            placeholder:text-yellow_orange focus:outline-none
-                            focus:placeholder:text-transparent text-yellow_orange" 
-                            autofocus
-                            placeholder="lurk...">
+                    <input 
+                     id="searchfield"
+                     type="text" 
+                     class="bg-slate_blue w-full h-full
+                               placeholder:text-yellow_orange focus:outline-none
+                               focus:placeholder:text-transparent text-yellow_orange" 
+                     autofocus
+                     placeholder="lurk...">
                     </p>
                 </div>
 
-                
+
                 <!--Placeholder bar-->
                 <div class="bg-viridian_green w-4/6 ml-3 p-1 h-8 shadow-inner shadow-xiketic">
                 </div>
@@ -117,7 +137,7 @@
         <!--Scripts-->
         <script>
             document.getElementById('searchfield').onkeypress = function (e) {
-            if (!e) e = window.event;
+                if (!e) e = window.event;
                 var keyCode = e.keyCode || e.which;
                 if (keyCode == '13') {
                     window.location.href = "https://duckduckgo.com/?q=" + document.getElementById('searchfield').value;
