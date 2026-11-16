@@ -3,7 +3,7 @@
     <head>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -12,27 +12,23 @@
 
         <script src="https://cdn.tailwindcss.com"></script>
         <script>
+            const loc = window.location.search.substr(1);
 
-            const loc = window.location.search.substr(1)
-
-            if (loc == "nord") {
+            if (loc === "nord") {
                 tailwind.config = {
                     theme: {
                         extend: {
-                            colors:{
+                            colors: {
                                 background1: '#2e3440',
                                 background2: '#bf616a',
                                 shadow1: '#3b4252',
                                 foreground1: '#e5e9f0',
                                 background3: '#3e4a5b',
                             }
-
                         }
-
                     }
-
-                }
-            }else {
+                };
+            } else {
                 tailwind.config = {
                     theme: {
                         extend: {
@@ -63,11 +59,10 @@
                                 base: '#1e1e2e',
                                 mantle: '#181825',
                                 crust: '#11111b'
-
                             }
                         }
                     }
-                }
+                };
             }
         </script>
 
@@ -75,100 +70,163 @@
             * {
                 font-family: 'Fira Code', monospace;
             }
+            
+            .link-hover {
+                transition: all 0.2s ease;
+                position: relative;
+            }
+            
+            .link-hover::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                bottom: -2px;
+                left: 0;
+                background-color: currentColor;
+                transition: width 0.2s ease;
+            }
+            
+            .link-hover:hover::after {
+                width: 100%;
+            }
+            
+            .link-hover:hover {
+                color: #f5c2e7;
+                transform: translateX(4px);
+            }
+            
+            .section-header {
+                position: relative;
+                padding-bottom: 4px;
+            }
+            
+            #searchfield {
+                transition: all 0.3s ease;
+            }
+            
+            #searchfield:focus {
+                transform: scale(1.02);
+            }
+            
+            .container-fade-in {
+                animation: fadeIn 0.6s ease-in;
+            }
+            
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px) skew(-6deg);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) skew(-6deg);
+                }
+            }
+            
+            .time-pulse {
+                animation: pulse 2s ease-in-out infinite;
+            }
+            
+            @keyframes pulse {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.8; }
+            }
         </style>
     </head>
-    <body class="bg-base flex items-center justify-center h-screen w-screen">
+    <body class="bg-base flex items-center justify-center min-h-screen w-screen p-4">
         <!--Top Container-->
-        <div class="flex w-5/6 flex-wrap skew-x-[-6deg] h-fit">
+        <div class="flex w-full max-w-6xl flex-wrap skew-x-[-6deg] h-fit container-fade-in">
 
             <!--Top Bar-->
-            <div class="flex w-full h-fit">
+            <div class="flex w-full h-fit gap-3">
                 <!--Time-->
-                <div class="w-1/3 bg-blue h-full p-1"><p id="time" class="text-crust"></p></div>
+                <div class="w-1/3 bg-blue h-full p-2 rounded-sm">
+                    <p id="time" class="text-crust font-semibold time-pulse"></p>
+                </div>
                 <!--Date-->
-                <div class="w-4/6 bg-blue h-full ml-3 p-1"><p id="date" class="text-crust"></p></div>
+                <div class="flex-1 bg-blue h-full p-2 rounded-sm">
+                    <p id="date" class="text-crust font-semibold"></p>
+                </div>
             </div>
 
             <!--Main Content-->
-            <div class="flex w-full py-3 h-fit">
+            <div class="flex w-full py-3 h-fit gap-3">
 
                 <!--Image-->
-                <div class="bg-mantle md:w-1/3 sm:block hidden">
-                    <img src="lucy.png" alt="Lucy" class="aspect-ratio" > 
+                <div class="bg-mantle md:w-1/3 hidden md:block rounded-sm overflow-hidden">
+                    <img src="lucy.png" alt="Lucy" class="w-full h-full object-cover" onerror="this.parentElement.style.display='none'"> 
                 </div>
 
                 <!--Links-->
-                <div class="flex flex-wrap justify-center lg:text-xl bg-mantle sm:w-full sm:w-full sm:ml-0 md:w-4/6 md:ml-3 text-text lg:py-20 lg:content-start md:content-center md:p-5 sm:p-0">
+                <div class="flex flex-wrap justify-start lg:text-lg bg-mantle w-full md:flex-1 text-text lg:py-12 px-8 md:p-8 sm:p-6 rounded-sm gap-8">
 
                     <!--Entertainment-->
-                    <div class="flex items-center flex-wrap flex-col lg:mr-32 mr-5">
-                        <div class="w-fit border-b-2 border-lavender"><h class="basis-full text-center text-pink">/Entertainment/</h></div>
-                        <div class="w-fit"><a href="https://www.wcostream.net" target="_blank" class="basis-full text-center">wco/</a></div>
-                        <div class="w-fit"><a href="https://www.youtube.com" target="_blank" class="basis-full text-center">yt/</a></div>
-                        <div class="w-fit"><a href="https://steamdb.info/upcoming/free/" target="_blank" class="basis-full text-center">sdb/</a></div>
-                    </div>
-
-                    <div class="h-0 flex-basis-full"></div>
-
-                    <!--Development-->
-                    <div class="flex items-center flex-wrap flex-col lg:mr-32">
-                        <div class="w-fit border-b-2 border-lavender"><h class="basis-full text-center text-pink">/Development/</h></div>
-                        <div class="flex flex-row">
-                            <div class="mr-4">
-                                <div class="w-fit"><a href="https://www.github.com/" target="_blank" class="basis-full text-center">gh/</a></div>
-                                <div class="w-fit"><a href="https://wolframalpha.com/" target="_blank" class="basis-full text-center">wfa/</a></div>
-                            </div>
-                            <div>
-                                <div class="w-fit"><a href="https://chat.openai.com/chat" target="_blank" class="basis-full text-center">cht/</a></div>
-                                <div class="w-fit"><a href="https://www.leetcode.com/" target="_blank" class="basis-full text-center">lc/</a></div>
-                            </div>
+                    <div class="flex items-start flex-col min-w-[140px]">
+                        <div class="section-header mb-3 border-b-2 border-lavender pb-1">
+                            <h2 class="text-pink font-semibold">/Entertainment/</h2>
+                        </div>
+                        <div class="space-y-2 w-full">
+                            <div><a href="https://www.wcostream.net" target="_blank" class="link-hover inline-block">wco/</a></div>
+                            <div><a href="https://www.youtube.com" target="_blank" class="link-hover inline-block">yt/</a></div>
+                            <div><a href="https://steamdb.info/upcoming/free/" target="_blank" class="link-hover inline-block">sdb/</a></div>
+                            <div><a href="http://127.0.0.1:8000/" target="_blank" class="link-hover inline-block">st/</a></div>
                         </div>
                     </div>
 
-                     <!--Uni-->
-                    <div class="flex items-center justify-center flex-wrap flex-col">
-                        <div class="w-fit border-b-2 border-lavender"><h class="basis-full text-center text-pink">/Uni/</h></div>
+                    <!--Development-->
+                    <div class="flex items-start flex-col min-w-[140px]">
+                        <div class="section-header mb-3 border-b-2 border-lavender pb-1">
+                            <h2 class="text-pink font-semibold">/Development/</h2>
+                        </div>
+                        <div class="grid grid-cols-2 gap-x-6 gap-y-2">
+                            <div><a href="https://www.github.com/" target="_blank" class="link-hover inline-block">gh/</a></div>
+                            <div><a href="https://chat.openai.com/chat" target="_blank" class="link-hover inline-block">cht/</a></div>
+                            <div><a href="https://wolframalpha.com/" target="_blank" class="link-hover inline-block">wfa/</a></div>
+                            <div><a href="https://www.leetcode.com/" target="_blank" class="link-hover inline-block">lc/</a></div>
+                            <div><a href="http://127.0.0.1:3000/" target="_blank" class="link-hover inline-block">lh/</a></div>
+                            <div><a href="http://127.0.0.1:7011/" target="_blank" class="link-hover inline-block">od/</a></div>
+                        </div>
+                    </div>
 
-                        <div class="flex lg:flex-row md:flex-col items-center justify-center md:w-full">
-                            <div class="flex lg:flex-col md:flex-row justify-center lg:w-1/2">
-                                <div class="w-fit p-1"><a href="https://mail.uni-kl.de/" target="_blank" class="basis-full text-center">mu/</a></div>
-                                <div class="w-fit p-1"><a href="https://olat.vcrp.de/dmz/" target="_blank" class="basis-full text-center">olt/</a></div>
-                                <div class="w-fit p-1"><a href="https://qis.verw.uni-kl.de/qisserver/rds" target="_blank" class="basis-full text-center">qis/</a></div>
-                                <div class="w-fit p-1"><a href="https://office.kis.uni-kl.de/default.asp" target="_blank" class="basis-full text-center">kis/</a></div>
-                            </div>
-
-                            <div class="flex lg:flex-col justify-center lg:w-1/2">
-                                <div class="w-fit p-1"><a href="https://urm.mathematik.uni-kl.de:4443/" target="_blank" class="basis-full text-center">urm/</a></div>
-                                <div class="w-fit p-1"><a href="https://exclaim.cs.uni-kl.de/login" target="_blank" class="basis-full text-center">exc/</a></div>
-                                <div class="w-fit p-1"><a href="https://gibtesheutepommes.de" target="_blank" class="basis-full text-center">pom/</a></div>
-                                <div class="w-fit p-1"><a href="https://sci-latex.informatik.uni-kl.de/project/" target="_blank" class="basis-full text-center">latex/</a></div>
-                            </div>
+                    <!--Uni-->
+                    <div class="flex items-start flex-col flex-1 min-w-[280px]">
+                        <div class="section-header mb-3 border-b-2 border-lavender pb-1">
+                            <h2 class="text-pink font-semibold">/Uni/</h2>
+                        </div>
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-2 w-full">
+                            <div><a href="https://mail.uni-kl.de/" target="_blank" class="link-hover inline-block">mu/</a></div>
+                            <div><a href="https://olat.vcrp.de/dmz/" target="_blank" class="link-hover inline-block">olt/</a></div>
+                            <div><a href="https://qis.verw.uni-kl.de/qisserver/rds" target="_blank" class="link-hover inline-block">qis/</a></div>
+                            <div><a href="https://office.kis.uni-kl.de/default.asp" target="_blank" class="link-hover inline-block">kis/</a></div>
+                            <div><a href="https://exclaim.cs.uni-kl.de/login" target="_blank" class="link-hover inline-block">exc/</a></div>
+                            <div><a href="https://gibtesheutepommes.de" target="_blank" class="link-hover inline-block">pom/</a></div>
+                            <div><a href="https://sci-latex.informatik.uni-kl.de/project/" target="_blank" class="link-hover inline-block">latex/</a></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-
             <!--Bottom bar-->
-            <div class="w-full flex h-fit">
-
+            <div class="w-full flex h-fit gap-3">
                 <!--Searchfield-->
-                <div class="w-1/3 bg-mauve p-1 h-fit">
-                    <p>
+                <div class="w-1/3 bg-mauve p-2 h-fit rounded-sm">
                     <input 
                      id="searchfield"
                      type="text" 
                      class="bg-mauve w-full h-full
                                placeholder:text-mantle focus:outline-none
-                               focus:placeholder:text-transparent text-mantle" 
+                               focus:placeholder:text-transparent text-mantle font-medium" 
                      autofocus
-                     placeholder="lurk...">
-                    </p>
+                     placeholder="lurk..."
+                     autocomplete="off"
+                     spellcheck="false">
                 </div>
 
-
-                <!--Placeholder bar-->
-                <div class="bg-mauve w-4/6 ml-3 p-1 h-8">
+                <!--Weather/Info bar-->
+                <div class="bg-mauve flex-1 p-2 rounded-sm flex items-center justify-between">
+                    <span class="text-mantle font-medium" id="greeting"></span>
+                    <span class="text-mantle text-sm" id="weather"></span>
                 </div>
             </div>
 
@@ -176,30 +234,74 @@
 
         <!--Scripts-->
         <script>
-            document.getElementById('searchfield').onkeypress = function (e) {
-                if (!e) e = window.event;
-                var keyCode = e.keyCode || e.which;
-                if (keyCode == '13') {
-                    window.location.href = "https://duckduckgo.com/?q=" + document.getElementById('searchfield').value;
+            // Search functionality
+            document.getElementById('searchfield').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const query = this.value.trim();
+                    if (query) {
+                        window.location.href = "https://duckduckgo.com/?q=" + encodeURIComponent(query);
+                    }
                 }
-            };
-        </script>
-        <script>
-            window.onload = displayClock();
-            function displayClock(){
-                var display = new Date().toLocaleTimeString();
-                document.getElementById("time").innerHTML = display;
-                setTimeout(displayClock, 1000)
+            });
+
+            // Clock display
+            function displayClock() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('en-US', { 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+                document.getElementById("time").textContent = timeString;
             }
-        </script>
-        <script>
-            window.onload = displayDate();
-            function displayDate(){
-                var display = new Date().toDateString();
-                document.getElementById("date").innerHTML = display;
-                setTimeout(displayDate, 10000)
+            
+            setInterval(displayClock, 1000);
+            displayClock();
+
+            // Date display
+            function displayDate() {
+                const now = new Date();
+                const dateString = now.toLocaleDateString('en-US', { 
+                    weekday: 'short', 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+                document.getElementById("date").textContent = dateString;
             }
+            
+            setInterval(displayDate, 60000);
+            displayDate();
+
+            // Greeting based on time
+            function updateGreeting() {
+                const hour = new Date().getHours();
+                let greeting;
+                
+                if (hour < 12) greeting = "Good morning";
+                else if (hour < 18) greeting = "Good afternoon";
+                else greeting = "Good evening";
+                
+                document.getElementById("greeting").textContent = greeting;
+            }
+            
+            updateGreeting();
+            setInterval(updateGreeting, 60000);
+
+            // Optional: Add keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Focus search with '/' key
+                if (e.key === '/' && document.activeElement !== document.getElementById('searchfield')) {
+                    e.preventDefault();
+                    document.getElementById('searchfield').focus();
+                }
+                
+                // Clear search with Escape
+                if (e.key === 'Escape' && document.activeElement === document.getElementById('searchfield')) {
+                    document.getElementById('searchfield').value = '';
+                    document.getElementById('searchfield').blur();
+                }
+            });
         </script>
     </body>
 </html>
-
