@@ -72,11 +72,92 @@
                     }
                 };
             }
+
+            const themeColors = tailwind.config.theme.extend.colors;
+            document.documentElement.style.setProperty('--effect-pink', themeColors.pink);
+            document.documentElement.style.setProperty('--effect-blue', themeColors.blue);
         </script>
 
         <style>
             * {
                 font-family: 'Fira Code', monospace;
+            }
+
+            #background-effect {
+                position: fixed;
+                inset: 0;
+                overflow: hidden;
+                pointer-events: none;
+                z-index: 0;
+            }
+
+            #background-effect::before,
+            #background-effect::after {
+                position: absolute;
+                inset: -80px;
+            }
+
+            #background-canvas {
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
+
+            #background-effect[data-effect="aurora"]::before {
+                content: '';
+                inset: -20%;
+                background:
+                    radial-gradient(ellipse at 25% 35%, var(--effect-pink) 0%, transparent 55%),
+                    radial-gradient(ellipse at 75% 65%, var(--effect-blue) 0%, transparent 55%);
+                opacity: 0.22;
+                will-change: transform;
+                animation: aurora-drift 24s ease-in-out infinite alternate;
+            }
+
+            #background-effect[data-effect="grid"] {
+                mask-image: radial-gradient(ellipse at center, black 15%, transparent 70%);
+            }
+
+            #background-effect[data-effect="grid"]::before {
+                content: '';
+                background-image:
+                    linear-gradient(currentColor 1px, transparent 1px),
+                    linear-gradient(90deg, currentColor 1px, transparent 1px);
+                background-size: 48px 48px;
+                opacity: 0.15;
+                will-change: transform;
+                animation: grid-drift 18s linear infinite;
+            }
+
+            @keyframes aurora-drift {
+                to { transform: translate3d(5%, -5%, 0) rotate(12deg) scale(1.1); }
+            }
+
+            @keyframes grid-drift {
+                to { transform: translateY(48px); }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                #background-effect[data-effect]::before,
+                #background-effect[data-effect]::after {
+                    animation: none;
+                }
+            }
+
+            .background-settings > summary {
+                list-style: none;
+                cursor: pointer;
+                opacity: 0.5;
+            }
+
+            .background-settings > summary::-webkit-details-marker {
+                display: none;
+            }
+
+            .background-settings:hover > summary,
+            .background-settings[open] > summary,
+            .background-settings > summary:focus-visible {
+                opacity: 1;
             }
             
             .link-hover {
@@ -183,9 +264,13 @@
             }
         </style>
     </head>
-    <body class="bg-base flex items-center justify-center min-h-screen w-screen p-4">
+    <body class="bg-base flex flex-col items-center justify-center min-h-screen w-screen p-4">
+        <div id="background-effect" data-effect="off" class="text-lavender" aria-hidden="true">
+            <canvas id="background-canvas"></canvas>
+        </div>
+
         <!--Top Container-->
-        <div class="flex w-full max-w-6xl flex-wrap skew-x-[-6deg] h-fit container-fade-in">
+        <div class="relative z-10 flex w-full max-w-6xl flex-wrap skew-x-[-6deg] h-fit container-fade-in">
 
             <!--Top Bar-->
             <div class="panel-top text-pink flex w-full h-fit gap-4">
@@ -281,8 +366,191 @@
 
         </div>
 
+        <div class="fixed bottom-4 right-4 z-20 text-text text-sm">
+            <details id="background-settings" class="background-settings relative">
+                <summary class="flex items-center justify-center w-10 h-10 rounded-sm text-pink focus:outline-none focus-visible:ring-2 focus-visible:ring-pink" aria-label="Background effects" title="Background effects">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+                        <path d="M4 7h7m4 0h5M4 17h1m4 0h11" />
+                        <circle cx="13" cy="7" r="2" />
+                        <circle cx="7" cy="17" r="2" />
+                    </svg>
+                </summary>
+                <div class="absolute bottom-full right-0 pb-2 w-56">
+                    <div class="bg-mantle border border-lavender/30 rounded-sm p-4 shadow-lg">
+                        <label for="background-select" class="block mb-2">Background</label>
+                        <select id="background-select" class="w-full bg-mantle text-text border border-lavender/30 rounded-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink">
+                            <option value="off">Off</option>
+                            <option value="stars">Stars</option>
+                            <option value="aurora">Aurora</option>
+                            <option value="grid">Grid</option>
+                            <option value="rain">Rain</option>
+                            <option value="petals">Flower petals</option>
+                            <option value="snow">Snow</option>
+                        </select>
+                    </div>
+                </div>
+            </details>
+        </div>
+
         <!--Scripts-->
         <script>
+            const backgroundSettings = document.getElementById('background-settings');
+            backgroundSettings.addEventListener('pointerenter', function(event) {
+                if (event.pointerType === 'mouse') this.open = true;
+            });
+            backgroundSettings.addEventListener('pointerleave', function(event) {
+                if (event.pointerType === 'mouse' && !this.contains(document.activeElement)) this.open = false;
+            });
+            backgroundSettings.addEventListener('focusout', function(event) {
+                if (!this.contains(event.relatedTarget) && !this.matches(':hover')) this.open = false;
+            });
+            backgroundSettings.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    this.open = false;
+                    this.querySelector('summary').focus();
+                    event.stopPropagation();
+                }
+            });
+            document.addEventListener('pointerdown', function(event) {
+                if (!backgroundSettings.contains(event.target)) backgroundSettings.open = false;
+            });
+
+            const backgroundEffect = document.getElementById('background-effect');
+            const backgroundSelect = document.getElementById('background-select');
+            const backgroundOptions = new Set(['off', 'stars', 'aurora', 'grid', 'rain', 'petals', 'snow']);
+            const backgroundStorageKey = 'startpage.background';
+            const particleEffects = new Set(['stars', 'rain', 'petals', 'snow']);
+            const canvas = document.getElementById('background-canvas');
+            const context = canvas.getContext('2d');
+            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+            let particles = [];
+            let canvasWidth = 0;
+            let canvasHeight = 0;
+            let animationFrame = null;
+            let previousTime = null;
+
+            function stopParticles() {
+                if (animationFrame !== null) cancelAnimationFrame(animationFrame);
+                animationFrame = null;
+                previousTime = null;
+            }
+
+            function drawParticles() {
+                if (!context) return;
+                const effect = backgroundEffect.dataset.effect;
+                context.clearRect(0, 0, canvasWidth, canvasHeight);
+                context.fillStyle = effect === 'petals' ? themeColors.pink :
+                    effect === 'snow' ? themeColors.text : themeColors.lavender;
+                context.strokeStyle = themeColors.blue;
+                context.lineWidth = 1;
+
+                for (const particle of particles) {
+                    const { x, y, size, phase } = particle;
+                    context.globalAlpha = particle.opacity;
+                    context.beginPath();
+                    if (effect === 'rain') {
+                        context.moveTo(x, y);
+                        context.lineTo(x - size * 0.12, y + size);
+                        context.stroke();
+                    } else if (effect === 'petals') {
+                        context.save();
+                        context.translate(x, y);
+                        context.rotate(phase);
+                        context.scale(1, 0.35 + Math.abs(Math.cos(phase)) * 0.65);
+                        context.moveTo(-size, 0);
+                        context.bezierCurveTo(-size, -size, size, -size * 0.7, size, 0);
+                        context.bezierCurveTo(size * 0.3, size, -size * 0.5, size * 0.5, -size, 0);
+                        context.fill();
+                        context.restore();
+                    } else {
+                        context.arc(x, y, size, 0, Math.PI * 2);
+                        context.fill();
+                    }
+                }
+                context.globalAlpha = 1;
+            }
+
+            function animateParticles(timestamp) {
+                // Elapsed time keeps motion consistent across display refresh rates.
+                const elapsed = previousTime === null ? 0 : Math.min((timestamp - previousTime) / 1000, 0.05);
+                previousTime = timestamp;
+                const effect = backgroundEffect.dataset.effect;
+                const drift = effect === 'snow' || effect === 'petals';
+                for (const particle of particles) {
+                    particle.phase += elapsed * particle.spin;
+                    particle.x += (particle.vx + (drift ? Math.sin(particle.phase) * 12 : 0)) * elapsed;
+                    particle.y += particle.vy * elapsed;
+                    // Wrap beyond the viewport so particles never jump while visible.
+                    particle.x = ((particle.x + 32) % (canvasWidth + 64) + canvasWidth + 64) % (canvasWidth + 64) - 32;
+                    particle.y = ((particle.y + 32) % (canvasHeight + 64) + canvasHeight + 64) % (canvasHeight + 64) - 32;
+                }
+                drawParticles();
+                animationFrame = requestAnimationFrame(animateParticles);
+            }
+
+            function resumeParticles() {
+                stopParticles();
+                if (context && particles.length && !reducedMotion.matches && !document.hidden) {
+                    animationFrame = requestAnimationFrame(animateParticles);
+                }
+            }
+
+            function resetParticles() {
+                stopParticles();
+                if (!context) return;
+                canvasWidth = backgroundEffect.clientWidth;
+                canvasHeight = backgroundEffect.clientHeight;
+                const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+                canvas.width = Math.round(canvasWidth * pixelRatio);
+                canvas.height = Math.round(canvasHeight * pixelRatio);
+                context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+                const effect = backgroundEffect.dataset.effect;
+                const density = effect === 'petals' ? 28000 : effect === 'snow' ? 16000 : 10000;
+                const count = particleEffects.has(effect) ? Math.min(180, Math.ceil(canvasWidth * canvasHeight / density)) : 0;
+                particles = Array.from({ length: count }, () => {
+                    const depth = 0.3 + Math.random() * 0.7;
+                    return {
+                        x: Math.random() * canvasWidth,
+                        y: Math.random() * canvasHeight,
+                        phase: Math.random() * Math.PI * 2,
+                        spin: 0.4 + Math.random() * 0.5,
+                        opacity: 0.2 + depth * 0.45,
+                        size: effect === 'rain' ? 12 + depth * 14 : effect === 'petals' ? 4 + depth * 4 : 0.5 + depth * 2,
+                        vx: effect === 'rain' ? -78 * depth : effect === 'stars' ? 3 * depth : 14 * depth,
+                        vy: effect === 'rain' ? 650 * depth : effect === 'stars' ? -8 * depth : 36 * depth
+                    };
+                });
+                drawParticles();
+                resumeParticles();
+            }
+
+            window.addEventListener('resize', resetParticles);
+            document.addEventListener('visibilitychange', resumeParticles);
+            reducedMotion.addEventListener('change', resumeParticles);
+
+            function setBackground(value) {
+                const effect = backgroundOptions.has(value) ? value : 'off';
+                backgroundEffect.dataset.effect = effect;
+                backgroundSelect.value = effect;
+                resetParticles();
+            }
+
+            try {
+                setBackground(localStorage.getItem(backgroundStorageKey));
+            } catch {
+                // Background selection still works when browser storage is unavailable.
+                setBackground('off');
+            }
+
+            backgroundSelect.addEventListener('change', function() {
+                setBackground(this.value);
+                try {
+                    localStorage.setItem(backgroundStorageKey, this.value);
+                } catch {
+                    // Keep the effect active for this visit.
+                }
+            });
+
             // Search functionality
             document.getElementById('searchfield').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
@@ -340,7 +608,7 @@
             // Optional: Add keyboard shortcuts
             document.addEventListener('keydown', function(e) {
                 // Focus search with '/' key
-                if (e.key === '/' && document.activeElement !== document.getElementById('searchfield')) {
+                if (e.key === '/' && !e.target.closest('input, textarea, select, [contenteditable="true"]')) {
                     e.preventDefault();
                     document.getElementById('searchfield').focus();
                 }
